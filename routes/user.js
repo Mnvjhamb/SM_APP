@@ -6,14 +6,13 @@ const router = express.Router();
 
 router.get('/profile', passport.isAuthenticated ,userController.profile);
 
-router.get('/signup', userController.signup_get);
+router.get('/signin', userController.signin_get);
 router.post('/signup', userController.signup_post);
 
-router.get('/login', userController.login_get);
 router.post('/login', passport.authenticate(
     'local',
     {
-        failureRedirect: '/user/login'
+        failureRedirect: '/user/signin'
     }
 ),userController.login_post)
 

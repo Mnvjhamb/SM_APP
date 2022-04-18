@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-1 mb-3 px-5">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">SM_APP</a>
+      
+
+      <% if(!user){ %> 
+        <form class="d-flex" action="/user/login" method="post">
+
+          <input class="form-control me-2 " type="text" name="username" required placeholder="username">
+          <input class="form-control me-2 " type="password" name="password" required placeholder="password">
+          <button class="btn btn-outline-primary" type="submit">Login</button>
+
+        </form>
+
+      <% } else{%> 
+        <div class="d-flex align-items-center">
+          <span class="mx-3" style="color: aliceblue;">Welcome <%= user.username %> </span>
+          <span class="material-icons mx-3" style="color: white;">
+            search
+          </span>
+          <span class="material-icons mx-3" style="color: white;">
+            chat_bubble_outline
+          </span>
+          <span class="material-icons mx-3" style="color: white;">
+            person
+          </span>
+          <a href="/user/logout" class="btn btn-sm mx-3 btn-warning">SignOut</a>
+
+        </div>
+      <% } %> 
+
+      
+    </div>
+  </nav>
+
+    
+  <div class="container" style="height: 60vh; display: flex; justify-content: center; align-items: center;">

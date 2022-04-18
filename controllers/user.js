@@ -2,25 +2,18 @@ const User = require('../models/user')
 
 
 module.exports.profile = (req, res)=>{
-    res.send("PROFILE")
+    res.render("profile")
 }
 
-module.exports.login_get = (req, res) => {
+module.exports.signin_get = (req, res) => {
     if(req.isAuthenticated()){
         return res.redirect('/user/profile')
     }
-    res.render('login');
+    res.render('signin', {user: null});
 }
 
 module.exports.login_post = (req, res)=>{
     res.redirect('/user/profile')
-}
-
-module.exports.signup_get = (req, res) => {
-    if(req.isAuthenticated()){
-        return res.redirect('/user/profile')
-    }
-    res.render('signup');
 }
 
 module.exports.signup_post = async (req, res) =>{
@@ -38,5 +31,5 @@ module.exports.signup_post = async (req, res) =>{
 
 module.exports.logout = (req, res)=>{
     req.logout();
-    res.redirect('/user/login')
+    res.redirect('/user/signin')
 }
