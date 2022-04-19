@@ -1,4 +1,4 @@
 
 module.exports.homeGet = (req, res)=>{
-    res.send("HOME")
+    res.redirect('/user/profile')
 }

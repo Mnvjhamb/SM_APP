@@ -1,8 +1,37 @@
 const User = require('../models/user')
+const Post = require('../models/post')
 
 
-module.exports.profile = (req, res)=>{
-    res.render("profile")
+module.exports.profile = async(req, res)=>{
+
+    const user = await User.findById(req.user._id).populate('posts');
+
+
+    res.render("profile" , {user})
+}
+// module.exports.profile_followers = (req, res)=>{
+//     res.render("profile", {posts: false, followers: true, following: false})
+// }
+// module.exports.profile_following = (req, res)=>{
+//     res.render("profile", {posts: false, followers: false, following: true})
+// }
+
+module.exports.post_get = (req, res)=>{
+    res.render('post');
+}
+
+module.exports.create_post = async (req, res)=>{
+    const post = await new Post(req.body);
+    post.user = req.user;
+    await post.save();
+
+    await User.findByIdAndUpdate(req.user._id, {
+        $push: {
+            posts: post
+        }
+    });
+
+    res.redirect('/user/profile')
 }
 
 module.exports.signin_get = (req, res) => {

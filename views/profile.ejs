@@ -1,8 +1,42 @@
 <%- include('partials/header') %> 
 <%- include('partials/navbar') %> 
 
+<div class="m-5" style="height: 100%; width: 100%; padding: 3%">
+    
+    <h1  class="d-flex px-5 display-5 align-items-center">
 
-<h1>PROFILE</h1>
+        <span class="material-icons mx-3" style="font-size: 100%" >
+            person
+        </span>
+
+        <span><%= user.username %></span>
+    </h1>
+
+    <ul style="font-size: larger;" class="px-5 mt-4 nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/user/profile">Posts: <%= user.posts.length %> </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="#">Followers: 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="#">Following: 1</a>
+        </li>
+        
+    </ul>
+
+
+    <ul class="list-group list-group-flush">
+
+      <% for(post of user.posts){ %> 
+
+        <li class="list-group-item"><%= post.title %> </li>
+      
+      <% } %> 
+    </ul>
+
+
+</div>
 
 
 <%- include('partials/footer') %> 

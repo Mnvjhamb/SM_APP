@@ -14,7 +14,7 @@
 
       <% } else{%> 
         <div class="d-flex align-items-center">
-          <span class="mx-3" style="color: aliceblue;">Welcome <%= user.username %> </span>
+          
           <span class="material-icons mx-3" style="color: white;">
             search
           </span>
@@ -24,6 +24,8 @@
           <span class="material-icons mx-3" style="color: white;">
             person
           </span>
+
+          <a href="/user/post" class="btn btn-success mx-3">Create Post</a>
           <a href="/user/logout" class="btn btn-sm mx-3 btn-warning">SignOut</a>
 
         </div>
@@ -34,4 +36,4 @@
   </nav>
 
     
-  <div class="container" style="height: 60vh; display: flex; justify-content: center; align-items: center;">
+  <div class="container" style="display: flex; justify-content: center; align-items: center;">

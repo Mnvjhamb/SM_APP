@@ -41,7 +41,7 @@ passport.use(new LocalStrategy(
       return next();
     }
 
-    res.redirect('/user/login')
+    res.redirect('/user/signin')
   }
 
   passport.setAuthenticatedUser = (req, res, next)=>{

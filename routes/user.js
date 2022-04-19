@@ -5,6 +5,11 @@ const userController = require('../controllers/user');
 const router = express.Router();
 
 router.get('/profile', passport.isAuthenticated ,userController.profile);
+// router.get('/profile/followers', passport.isAuthenticated ,userController.profile_followers);
+// router.get('/profile/following', passport.isAuthenticated ,userController.profile_following);
+
+router.get('/post', passport.isAuthenticated, userController.post_get);
+router.post('/post', passport.isAuthenticated, userController.create_post);
 
 router.get('/signin', userController.signin_get);
 router.post('/signup', userController.signup_post);
