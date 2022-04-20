@@ -2,6 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/user');
+const Post = require('../models/post')
 
 // authentication using passport
 passport.use(new LocalStrategy(
@@ -48,6 +49,10 @@ passport.use(new LocalStrategy(
     if(req.isAuthenticated()){
       res.locals.user = req.user;
     }
+    next();
+  }
+
+  passport.isAuthorized = async (req, res, next)=>{
     next();
   }
 

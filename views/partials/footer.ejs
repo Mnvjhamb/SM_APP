@@ -5,6 +5,15 @@
     
     <p class="d-flex justify-content-center">Copyright &#169; 2022 SM_APP. All rights reserved</p>
 
+    <script>
+        var myModal = document.getElementById('myModal')
+        var myInput = document.getElementById('myInput')
+
+        myModal.addEventListener('shown.bs.modal', function () {
+        myInput.focus()
+        })
+    </script>
+
 
 </body>
 </html>

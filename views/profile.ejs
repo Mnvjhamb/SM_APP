@@ -26,11 +26,16 @@
     </ul>
 
 
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush pl-3">
 
       <% for(post of user.posts){ %> 
 
-        <li class="list-group-item"><%= post.title %> </li>
+        <li class="list-group-item">
+          
+          <a class="post_link" href="/posts/<%= post._id %> "><%= post.title %></a> <br>
+          <small>&nbsp;&nbsp;&nbsp;&nbsp;created on -- <%= post.createdAt.toString().slice(3,16) %> </small>
+          
+        </li>
       
       <% } %> 
     </ul>

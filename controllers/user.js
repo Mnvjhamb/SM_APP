@@ -17,7 +17,7 @@ module.exports.profile = async(req, res)=>{
 // }
 
 module.exports.post_get = (req, res)=>{
-    res.render('post');
+    res.render('createPost');
 }
 
 module.exports.create_post = async (req, res)=>{
