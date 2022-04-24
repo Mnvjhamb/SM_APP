@@ -14,10 +14,15 @@
 
       <% } else{%> 
         <div class="d-flex align-items-center">
-          
-          <span class="material-icons mx-2" style="color: white;">
-            search
-          </span>
+          <form class="d-flex align-items-center" action="/user/search/" method="POST">
+            <input type="text" name="username" placeholder="Search"> 
+            <button type="submit" class="btn d-flex align-items-center">
+              <span class="material-icons " style="color: white;">
+                search
+              </span>
+            </button>
+          </form>
+
           <span class="material-icons mx-2" style="color: white;">
             chat_bubble_outline
           </span>

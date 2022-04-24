@@ -21,7 +21,14 @@ router.post('/login', passport.authenticate(
     }
 ),userController.login_post)
 
-router.get('/logout', userController.logout);
+router.post('/search', passport.isAuthenticated, userController.search);
+
+router.get('/logout',passport.isAuthenticated, userController.logout);
+
+router.get('/:id', passport.isAuthenticated, userController.stalk_user);
+router.get('/:id/follow', passport.isAuthenticated, userController.follow);
+router.get('/:id/unfollow', passport.isAuthenticated, userController.unfollow);
+
 
 
 module.exports = router;

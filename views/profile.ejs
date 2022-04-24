@@ -3,24 +3,38 @@
 
 <div class="m-5" style="height: 100%; width: 100%; padding: 3%">
     
-    <h1  class="d-flex px-5 display-5 align-items-center">
+  <div class="row d-flex align-items-center">
+    <h1 style="width: fit-content;" class="d-flex  pl-5 pr-3 display-5 align-items-center">
 
-        <span class="material-icons mx-3" style="font-size: 100%" >
-            person
-        </span>
+      <span class="material-icons mx-2" style="font-size: 100%" >
+          person
+      </span>
 
-        <span><%= user.username %></span>
+      <span><%= user.username %></span>
+      
     </h1>
+
+    <% if(stalking){ %>
+      <div style="width: fit-content;">
+        <% if(!following){ %> 
+          <a style=" text-decoration: none;" href="/user/<%= user._id %>/follow" class="badge bg-primary">Follow+</a>
+        <% } else{ %> 
+          <a style=" text-decoration: none;" href="/user/<%= user._id %>/unfollow" class="badge bg-primary">Unfollow</a>
+        <% } %> 
+      </div>
+    <% } %> 
+  </div>
+    
 
     <ul style="font-size: larger;" class="px-5 mt-4 nav nav-tabs">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/user/profile">Posts: <%= user.posts.length %> </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="#">Followers: 1</a>
+          <a class="nav-link " href="#">Followers: <%= user.followers.length - 1 %> </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="#">Following: 1</a>
+          <a class="nav-link " href="#">Following: <%= user.following.length - 1 %> </a>
         </li>
         
     </ul>

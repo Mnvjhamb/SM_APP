@@ -18,12 +18,27 @@ const userSchema = new Schema({
     posts: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Post"
+            ref: "Post",
         }
-    ]
+    ],
+    following:[
+        {
+            id: mongoose.Schema.Types.ObjectId,
+            userId: String,
+        }
+    ],
+    followers:[
+        {
+            id: mongoose.Schema.Types.ObjectId,
+            userId: String,
+        }
+    ],
+    
 },{
     timestamps: true
 });
+
+userSchema.index({ _id: 1 }, { sparse: true });
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
