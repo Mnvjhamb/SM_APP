@@ -23,11 +23,13 @@ module.exports.update_post = async(req, res)=>{
         description: req.body.description
     })
     post.save();
+    req.flash('success', "Post Updated")
     res.redirect(`/posts/${post._id.toString()}`)
-    // update post
+    
 }
 
 module.exports.delete_post = async (req, res)=>{
     await Post.findByIdAndDelete(req.params.id);
+    req.flash('info', 'Post Deleted')
     res.redirect('/user/profile')
 }

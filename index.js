@@ -8,6 +8,7 @@ const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local')
 const bodyParser = require('body-parser')
+const flash = require('connect-flash');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -30,11 +31,20 @@ app.use(session({
 
 }))
 
+app.use(flash());
+
 // initializing passport 
 app.use(passport.initialize());
 app.use(passport.session()); 
 
 app.use(passport.setAuthenticatedUser);
+
+app.use((req, res, next)=>{
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    res.locals.info = req.flash('info');
+    next();
+})
 
 // Entry route for app
 app.use('/', require('./routes/home'));

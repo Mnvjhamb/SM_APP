@@ -7,6 +7,7 @@ const Post = require('../models/post')
 
 module.exports.profile = async(req, res)=>{
     const user = await User.findById(req.user._id).populate('posts');
+
     res.render("profile" , {user, stalking: false})
 }
 
@@ -56,6 +57,8 @@ module.exports.follow = async (req, res)=>{
                 } 
             } 
         });
+
+        req.flash('success', `Started following ${user.username}`);
         res.redirect('back')
     }
 
@@ -87,6 +90,8 @@ module.exports.unfollow = async (req, res)=>{
                 } 
             } 
         });
+
+        req.flash('success', `Unfollowed ${user.username}`)
         res.redirect('back')
     }
 
@@ -99,7 +104,7 @@ module.exports.search = async (req, res)=>{
     if(user){      
         res.redirect(`/user/${user._id}`)
     } else{
-        console.log("USER not found");
+        req.flash('error', "User not found")
         res.redirect('back')
     }
 }
@@ -119,6 +124,8 @@ module.exports.create_post = async (req, res)=>{
         }
     });
 
+    req.flash('success', "Post created")
+
     res.redirect('/user/profile')
 }
 
@@ -130,6 +137,7 @@ module.exports.signin_get = (req, res) => {
 }
 
 module.exports.login_post = (req, res)=>{
+    req.flash('success', `Welcome, ${req.user.username}`)
     res.redirect('/user/profile')
 }
 
@@ -146,10 +154,13 @@ module.exports.signup_post = async (req, res) =>{
     }];
     await user.save();
 
+    req.flash('success', "Successfully created your account")
     req.login(user, (err)=>{
         if(err) {
+            req.flash('error', err)
             return res.redirect('/user/signin');
         }
+        
         res.redirect('/user/profile');
     });
 
@@ -157,6 +168,7 @@ module.exports.signup_post = async (req, res) =>{
 
 module.exports.logout = (req, res)=>{
     req.logout();
+    req.flash('info', "Logged you out")
     res.redirect('/user/signin')
 }
 
