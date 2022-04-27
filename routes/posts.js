@@ -16,6 +16,8 @@ const isAuthorized = async (req, res, next)=>{
     console.log("not authorized");
     res.redirect('/user/profile')
 }
+router.get('/create', passport.isAuthenticated, postController.post_get);
+router.post('/create', passport.isAuthenticated, postController.create_post);
 
 router.get('/:id',postController.show_post)
 router.get('/:id/update', isAuthorized ,postController.update_post_get)

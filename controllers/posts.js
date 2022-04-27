@@ -1,14 +1,46 @@
 const Post = require("../models/post");
 
 
-module.exports.show_post = async (req, res)=>{
-    const post = await Post.findById(req.params.id).populate("user");
-    let authorized = false;
-    if(post.user._id.toString() === req.user._id.toString()){
-        authorized = true;
-    }
+module.exports.post_get = (req, res)=>{
+    res.render('createPost');
+}
 
-    res.render('showPost', {post, authorized})
+module.exports.create_post = async (req, res)=>{
+    try {    
+        const post = await new Post(req.body);
+        post.user = req.user;
+        await post.save();
+
+        await User.findByIdAndUpdate(req.user._id, {
+            $push: {
+                posts: post
+            }
+        });
+
+        req.flash('success', "Post created")
+
+        res.redirect('/user/profile')
+    } catch (error) {
+        console.log(error);
+        req.flash('error', "An error occured");
+        res.redirect('back');
+    }
+}
+
+module.exports.show_post = async (req, res)=>{
+    try {    
+        const post = await Post.findById(req.params.id).populate("user");
+        let authorized = false;
+        if(post.user._id.toString() === req.user._id.toString()){
+            authorized = true;
+        }
+
+        res.render('showPost', {post, authorized})
+    } catch (error) {
+        console.log(error);
+        req.flash('error', "An error occured");
+        res.redirect('back');
+    }
 }
 
 
@@ -17,19 +49,30 @@ module.exports.update_post_get =  async(req, res)=>{
 }
 
 module.exports.update_post = async(req, res)=>{
-    
-    const post = await Post.findByIdAndUpdate(req.post_to_be_updated._id.toString(),{
-        title: req.body.title,
-        description: req.body.description
-    })
-    post.save();
-    req.flash('success', "Post Updated")
-    res.redirect(`/posts/${post._id.toString()}`)
+    try{
+        const post = await Post.findByIdAndUpdate(req.post_to_be_updated._id.toString(),{
+            title: req.body.title,
+            description: req.body.description
+        })
+        post.save();
+        req.flash('success', "Post Updated")
+        res.redirect(`/posts/${post._id.toString()}`)
+    } catch(e){
+        console.log(e);
+        req.flash('error', "An error occured");
+        res.redirect('back');
+    }
     
 }
 
 module.exports.delete_post = async (req, res)=>{
-    await Post.findByIdAndDelete(req.params.id);
-    req.flash('info', 'Post Deleted')
-    res.redirect('/user/profile')
+    try{
+        await Post.findByIdAndDelete(req.params.id);
+        req.flash('info', 'Post Deleted')
+        res.redirect('/user/profile')
+    } catch(e){
+        console.log(e);
+        req.flash('error', "An error occured");
+        res.redirect('back');
+    }
 }
