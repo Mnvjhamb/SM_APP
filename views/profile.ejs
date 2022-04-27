@@ -29,31 +29,58 @@
     
 
     <ul style="font-size: larger;" class="px-5 mt-4 nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/user/profile">Posts: <%= user.posts.length %> </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="#">Followers: <%= user.followers.length - 1 %> </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="#">Following: <%= user.following.length - 1 %> </a>
-        </li>
+        
+        <% if(!stalking){ %> 
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/user/profile">Posts: <%= user.posts.length %> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="/user/profile/followers">Followers: <%= user.followers.length - 1 %> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="/user/profile/following">Following: <%= user.following.length - 1 %> </a>
+          </li>
+        <% }else{ %>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/user/<%= user._id %>">Posts: <%= user.posts.length %> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="/user/<%= user._id %>/followers">Followers: <%= user.followers.length - 1 %> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="/user/<%= user._id %>/following">Following: <%= user.following.length - 1 %> </a>
+          </li>
+        <% } %> 
         
     </ul>
 
 
     <ul class="list-group list-group-flush pl-3">
 
-      <% for(post of user.posts){ %> 
+        <% if(show === "posts"){ %> 
+          <% for(post of user.posts){ %> 
+            <li class="list-group-item">
+              <a class="post_link" href="/posts/<%= post._id %> "><%= post.title %></a> <br>
+              <small>&nbsp;&nbsp;&nbsp;&nbsp;created on -- <%= post.createdAt.toString().slice(3,16) %> </small>
+            </li>
+          <% } }%>  
 
-        <li class="list-group-item">
-          
-          <a class="post_link" href="/posts/<%= post._id %> "><%= post.title %></a> <br>
-          <small>&nbsp;&nbsp;&nbsp;&nbsp;created on -- <%= post.createdAt.toString().slice(3,16) %> </small>
-          
-        </li>
-      
-      <% } %> 
+        <%  if(show === "followers"){ %> 
+          <% for(u of followers){ %> 
+            <% if(u._id.toString() !== user._id.toString()){ %> 
+            <li class="list-group-item">
+              <a class="post_link" href="/user/<%= u._id %>"><%= u.username %></a> <br>
+            </li>
+          <% } } } %> 
+
+        <%  if(show === "following"){ %> 
+          <% for(u of followings){ %> 
+            <% if(u._id.toString() !== user._id.toString()){ %> 
+            <li class="list-group-item">
+              <a class="post_link" href="/user/<%= u._id %>"><%= u.username %></a> <br>
+            </li>
+          <% } } } %> 
+
     </ul>
 
 

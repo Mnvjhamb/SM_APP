@@ -8,7 +8,7 @@ const Post = require('../models/post')
 module.exports.profile = async(req, res)=>{
     const user = await User.findById(req.user._id).populate('posts');
 
-    res.render("profile" , {user, stalking: false})
+    res.render("profile" , {user, stalking: false, show:"posts"})
 }
 
 
@@ -28,7 +28,7 @@ module.exports.stalk_user = async(req, res)=>{
                     following = true
                 }
             }
-            res.render('profile', {user, stalking: true, following})
+            res.render('profile', {user, stalking: true, following, show: "posts"})
         } else{
             throw "No such User"
         }
@@ -190,9 +190,65 @@ module.exports.logout = (req, res)=>{
     
 }
 
-// module.exports.profile_followers = (req, res)=>{
-//     res.render("profile", {posts: false, followers: true, following: false})
-// }
-// module.exports.profile_following = (req, res)=>{
-//     res.render("profile", {posts: false, followers: false, following: true})
-// }
+module.exports.profile_followers = async (req, res)=>{
+
+    let id = req.user._id;
+    let stalking = false;
+    if(req.params.id){
+        id = req.params.id
+        stalking = true;
+    }
+    const user = await User.findById(id);
+    let following = false;
+    if(stalking){
+        for(let follower of user.followers){
+            if(follower.userId === req.user._id.toString()){
+                following = true
+            }
+        }
+    }
+
+    let followers_array = [];
+    for(follower of user.followers){
+        followers_array.push(follower.userId)
+    }
+
+    const followers = await User.find({
+        _id: {
+            $in: followers_array
+        }
+    })
+    res.render("profile" , {user, stalking, following, followers, show:"followers"})
+
+}
+module.exports.profile_following = async (req, res)=>{
+
+    let id = req.user._id;
+    let stalking = false;
+    if(req.params.id){
+        id = req.params.id;
+        stalking = true
+    }
+    const user = await User.findById(id);
+    let following = false;
+    if(stalking){
+        for(let follower of user.followers){
+            if(follower.userId === req.user._id.toString()){
+                following = true
+            }
+        }
+    }
+
+    let following_array = [];
+    for(f of user.following){
+        following_array.push(f.userId)
+    }
+
+    const followings = await User.find({
+        _id: {
+            $in: following_array
+        }
+    })
+    res.render("profile" , {user, stalking, following, followings, show:"following"})
+
+}
