@@ -76,3 +76,77 @@ module.exports.delete_post = async (req, res)=>{
         res.redirect('back');
     }
 }
+
+function pull(arr, value) { 
+    
+    return arr.filter(function(ele){ 
+        return ele != value; 
+    });
+}
+
+module.exports.upvote = async (req, res)=>{
+    try{
+        let post = await Post.findById(req.params.id);
+        
+        if(post){
+
+            for(u of post.downvotes){
+                if(u._id.toString() === req.user._id.toString()){
+                    
+                    await post.downvotes.pull(req.user._id.toString());
+                    await post.save();
+                    break;
+                }
+            }
+
+            for(u of post.upvotes){
+                if(u._id.toString() === req.user._id.toString()){
+                    
+                    await post.upvotes.pull(req.user._id.toString());
+                    await post.save();
+                    return res.redirect('back');
+                }
+            }
+
+            post.upvotes.push(req.user);
+            await post.save();
+            res.redirect('back');
+            
+        }
+    }catch(e){
+        res.send(e);
+    }
+}
+module.exports.downvote = async (req, res)=>{
+    try{
+        let post = await Post.findById(req.params.id);
+        
+        if(post){
+
+            for(u of post.upvotes){
+                if(u._id.toString() === req.user._id.toString()){
+                    
+                    await post.upvotes.pull(req.user._id.toString());
+                    await post.save();
+                    break;
+                }
+            }
+
+            for(u of post.downvotes){
+                if(u._id.toString() === req.user._id.toString()){
+                    
+                    await post.downvotes.pull(req.user._id.toString());
+                    await post.save();
+                    return res.redirect('back');
+                }
+            }
+
+            post.downvotes.push(req.user);
+            await post.save();
+            res.redirect('back');
+            
+        }
+    }catch(e){
+        res.send(e);
+    }
+}

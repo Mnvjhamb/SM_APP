@@ -20,9 +20,14 @@ router.get('/create', passport.isAuthenticated, postController.post_get);
 router.post('/create', passport.isAuthenticated, postController.create_post);
 
 router.get('/:id',postController.show_post)
+
+router.get('/:id/upvote', passport.isAuthenticated ,postController.upvote)
+router.get('/:id/downvote', passport.isAuthenticated ,postController.downvote)
+
 router.get('/:id/update', isAuthorized ,postController.update_post_get)
 router.post('/:id/update', isAuthorized ,postController.update_post)
 router.get('/:id/delete', isAuthorized ,postController.delete_post)
+
 
 
 module.exports = router;

@@ -59,9 +59,22 @@
 
         <% if(show === "posts"){ %> 
           <% for(post of user.posts){ %> 
-            <li class="list-group-item">
-              <a class="post_link" href="/posts/<%= post._id %> "><%= post.title %></a> <br>
-              <small>&nbsp;&nbsp;&nbsp;&nbsp;created on -- <%= post.createdAt.toString().slice(3,16) %> </small>
+            <li class="list-group">
+              <div class="d-flex align-items-center ">
+                <div class="mx-2 d-flex flex-column align-items-center" style="width: fit-content;">
+                  <span class="material-icons">
+                    <a class="<%= post.upvoted?"color-green":"color-black" %> " style="text-decoration: none;" href="/posts/<%= post._id %>/upvote">expand_less</a>
+                  </span> 
+                  <span ><%= post.upvotes.length - post.downvotes.length %></span>
+                  <span class="material-icons">
+                    <a class="<%= post.downvoted?"color-red":"color-black" %> " style="text-decoration: none;" href="/posts/<%= post._id %>/downvote">expand_more</a>
+                  </span>
+                </div>
+                <div style="width: fit-content;">
+                  <a class="post_link" href="/posts/<%= post._id %> "><%= post.title %></a> <br>
+                  <small>&nbsp;&nbsp;&nbsp;&nbsp;created on -- <%= post.createdAt.toString().slice(3,16) %> </small>
+                </div>
+              </div>
             </li>
           <% } }%>  
 

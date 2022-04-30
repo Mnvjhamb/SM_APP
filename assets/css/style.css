@@ -7,3 +7,21 @@
 a.badge:hover{
     color: white
 }
+/* 
+.vote{
+    color: black
+}
+
+.vote:hover{
+    color: darkcyan
+} */
+
+.color-black{
+    color: black
+}
+.color-green{
+    color: green
+}
+.color-red{
+    color: red
+}
