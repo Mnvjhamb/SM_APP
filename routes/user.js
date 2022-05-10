@@ -21,6 +21,7 @@ router.post('/login', passport.authenticate(
 router.post('/search', passport.isAuthenticated, userController.search);
 
 router.get('/logout',passport.isAuthenticated, userController.logout);
+router.get('/chat', passport.isAuthenticated, userController.chat);
 
 router.get('/:id', passport.isAuthenticated, userController.stalk_user);
 router.get('/:id/follow', passport.isAuthenticated, userController.follow);

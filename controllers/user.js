@@ -8,7 +8,23 @@ const Post = require('../models/post')
 module.exports.profile = async(req, res)=>{
     const user = await User.findById(req.user._id).populate('posts');
 
-    console.log(user);
+    for(var post of user.posts){
+        post.upvoted = false;
+        for(u of post.upvotes){
+            if(u._id.toString() === req.user._id.toString()){
+                post.upvoted = true
+                break;
+            }
+        }
+        post.downvoted = false;
+        for(u of post.downvotes){
+            if(u._id.toString() === req.user._id.toString()){
+                post.downvoted = true;
+                break;
+            }
+        }
+    }
+    await user.save();
 
     res.render("profile" , {user, stalking: false, show:"posts"})
 }
@@ -48,7 +64,6 @@ module.exports.stalk_user = async(req, res)=>{
                 }
             }
             await user.save();
-            console.log(user.posts)
             res.render('profile', {user, stalking: true, following, show: "posts"})
         } else{
             throw "No such User"
@@ -271,5 +286,8 @@ module.exports.profile_following = async (req, res)=>{
         }
     })
     res.render("profile" , {user, stalking, following, followings, show:"following"})
+}
 
+module.exports.chat = (req, res)=>{
+    res.render('chatbox');
 }

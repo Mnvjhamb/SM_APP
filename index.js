@@ -10,6 +10,12 @@ const passportLocal = require('./config/passport-local')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash');
 
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_socket').chatSockets(chatServer);
+chatServer.listen(5000, ()=>{
+    console.log('chat server is listening on port 5000');
+})
+
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
@@ -48,6 +54,7 @@ app.use((req, res, next)=>{
 
 // Entry route for app
 app.use('/', require('./routes/home'));
+
 
 app.listen(port, (err)=>{
     if(err){
